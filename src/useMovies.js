@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const KEY = "f84fc31d";
+const KEY = "5e885bbc";
 
 export function useMovies(query) {
   const [movies, setMovies] = useState([]);
@@ -9,7 +9,7 @@ export function useMovies(query) {
 
   useEffect(
     function () {
-      // callback?.();
+      //   callBack?.();
 
       const controller = new AbortController();
 
@@ -17,7 +17,6 @@ export function useMovies(query) {
         try {
           setIsLoading(true);
           setError("");
-
           const res = await fetch(
             `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
             { signal: controller.signal }
@@ -28,12 +27,10 @@ export function useMovies(query) {
 
           const data = await res.json();
           if (data.Response === "False") throw new Error("Movie not found");
-
           setMovies(data.Search);
           setError("");
         } catch (err) {
           if (err.name !== "AbortError") {
-            console.log(err.message);
             setError(err.message);
           }
         } finally {
@@ -55,6 +52,5 @@ export function useMovies(query) {
     },
     [query]
   );
-
   return { movies, isLoading, error };
 }
